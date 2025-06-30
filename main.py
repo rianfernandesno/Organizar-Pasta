@@ -1,12 +1,12 @@
 from  pathlib import Path
-import shutil
+import shutil, time
 
 print("="*10 + " Organizador de arquivo! " + "="*10)
 
 name = input("Informe o caminho da onde você quer organizar suas pastas: ").replace("\\", "/")
 path = Path(name)
 send_to = input("Informe o local que você quer organizar: ")
-path_files = Path(send_to).iterdir()
+path_files = list(Path(send_to).iterdir())
 Path(str(path) + "/Pasta Organizada").mkdir(exist_ok=True)
 
 types = []
@@ -25,7 +25,9 @@ while True:
 # Backup
 resp_backup = input("Você deseja fazer um backup? ").upper()[0]
 
+timestamp_atual = time.time()
 if resp_backup == "S":
+    timestamp_atual = time.time()
     for file in path_files:
         Path(name + "/backup").mkdir(exist_ok=True)
         if file.suffix in types:
@@ -38,7 +40,10 @@ for file in path_files:
          path_ext = str(name) + "/Pasta Organizada/" + file.suffix[1:]
          Path(path_ext).mkdir(exist_ok=True)
          shutil.move(file, path_ext)
+timestamp_after = time.time()
 
+in_senc = timestamp_after - timestamp_atual
+print(f"O programa levou: {in_senc:.3f} para ser executado ")
       # if file.suffix == ".jpg":
       #     path_jpg = str(name) + "/Pasta Organizada/jpg"
       #     Path(path_jpg).mkdir(exist_ok=True)
